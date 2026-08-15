@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Product extends Model
+{
+    // Relasi balik ke tabel Seller
+    public function seller()
+    {
+        return $this->belongsTo(Seller::class);
+    }
+
+    // Relasi balik ke tabel ProductCategory
+    public function productCategory()
+    {
+        return $this->belongsTo(ProductCategory::class);
+    }
+
+    // Relasi 1:N ke tabel ProductImage
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    // Relasi 1:N ke tabel Review
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+}

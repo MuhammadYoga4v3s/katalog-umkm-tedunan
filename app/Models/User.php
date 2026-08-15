@@ -29,4 +29,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relasi 1:1 ke tabel Sellers
+    public function seller()
+    {
+        // Laravel otomatis akan mencari kolom 'user_id' di tabel sellers
+        return $this->hasOne(Seller::class);
+    }
+
+    // Relasi 1:N ke tabel VerificationHistory (khusus Admin)
+    public function verificationHistories()
+    {
+        // Kita harus sebut 'admin_id' karena namanya bukan standar 'user_id'
+        return $this->hasMany(VerificationHistory::class, 'admin_id');
+    }
 }

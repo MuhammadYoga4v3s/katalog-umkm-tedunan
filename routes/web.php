@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\VerificationController;
 use App\Http\Controllers\Penjual\ProfileController as SellerProfileController;
 use App\Http\Controllers\Penjual\ProductController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\Admin\ReportController as AdminReportController;
+use App\Http\Controllers\Penjual\ReportController as SellerReportController;
 
 // Rute Publik (Pengunjung Umum)
 Route::get('/', [FrontController::class, 'index'])->name('home');
@@ -46,6 +48,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('verifikasi', [VerificationController::class, 'index'])->name('verifikasi.index');
     Route::post('verifikasi/{seller}', [VerificationController::class, 'verify'])->name('verifikasi.process');
     
+    // Laporan Admin (PDF)
+    Route::get('laporan/unduh', [AdminReportController::class, 'download'])->name('laporan.download');
 });
 
 // Route khusus Penjual (Seller)
@@ -62,7 +66,9 @@ Route::middleware(['auth'])->prefix('penjual')->name('seller.')->group(function 
     
     // CRUD Produk
     Route::resource('produk', ProductController::class);
-    
+
+    // Laporan Penjual (PDF)
+    Route::get('laporan/unduh', [SellerReportController::class, 'download'])->name('laporan.download');
 });
 
 require __DIR__.'/auth.php';

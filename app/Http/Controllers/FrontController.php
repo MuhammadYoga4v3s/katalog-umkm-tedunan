@@ -22,16 +22,37 @@ class FrontController extends Controller
         return view('home', compact('latestProducts'));
     }
 
-    // Menampilkan daftar semua UMKM
+    // Menampilkan daftar semua UMKM (beserta fitur pencarian)
     public function umkm(Request $request)
     {
-        // Hanya ambil UMKM yang status verifikasinya 'approved'
+        // Mulai dengan mengambil UMKM yang statusnya 'approved'
         $query = Seller::where('verification_status', 'approved')->with('businessCategory');
 
-        // (Nanti logika pencarian/filter RT RW bisa kita tambahkan di sini)
+        // Filter berdasarkan nama UMKM
+        if ($request->filled('search')) {
+            $query->where('business_name', 'like', '%' . $request->search . '%');
+        }
 
-        $sellers = $query->paginate(12);
-        return view('front.umkm.index', compact('sellers'));
+        // Filter berdasarkan kategori usaha
+        if ($request->filled('kategori')) {
+            $query->where('business_category_id', $request->kategori);
+        }
+
+        // Filter berdasarkan lokasi (RT dan RW)
+        if ($request->filled('rt')) {
+            $query->where('rt', $request->rt);
+        }
+        if ($request->filled('rw')) {
+            $query->where('rw', $request->rw);
+        }
+
+        // Ambil data dengan pagination dan pertahankan parameter URL (appends)
+        $sellers = $query->paginate(12)->appends($request->query());
+        
+        // Ambil daftar kategori untuk ditampilkan di dropdown filter UI
+        $categories = \App\Models\BusinessCategory::all();
+
+        return view('front.umkm.index', compact('sellers', 'categories'));
     }
 
     // Menampilkan detail satu UMKM beserta produk-produknya
@@ -46,15 +67,29 @@ class FrontController extends Controller
         return view('front.umkm.show', compact('seller', 'products'));
     }
 
-    // Menampilkan katalog semua Produk
+    // Menampilkan katalog semua Produk (beserta fitur pencarian)
     public function produk(Request $request)
     {
+        // Mulai dengan mengambil produk yang statusnya 'available'
         $query = Product::where('status', 'available')->with(['images', 'seller', 'productCategory']);
 
-        // (Nanti logika pencarian nama produk dan kategori bisa ditambahkan di sini)
+        // Filter berdasarkan nama produk
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
 
-        $products = $query->paginate(16);
-        return view('front.produk.index', compact('products'));
+        // Filter berdasarkan kategori produk
+        if ($request->filled('kategori')) {
+            $query->where('product_category_id', $request->kategori);
+        }
+
+        // Ambil data dengan pagination dan pertahankan parameter URL
+        $products = $query->paginate(16)->appends($request->query());
+        
+        // Ambil daftar kategori untuk ditampilkan di dropdown filter UI
+        $categories = \App\Models\ProductCategory::all();
+
+        return view('front.produk.index', compact('products', 'categories'));
     }
 
     // Menampilkan detail satu produk dan ulasannya

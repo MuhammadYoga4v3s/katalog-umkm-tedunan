@@ -8,6 +8,9 @@ use App\Models\VerificationHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+use App\Mail\AkunDisetujuiMail;
 
 class VerificationController extends Controller
 {
@@ -19,7 +22,7 @@ class VerificationController extends Controller
                                 ->with(['user', 'businessCategory'])
                                 ->get();
                                 
-        // Arahkan ke view (UI kita buat nanti)
+        // Arahkan ke view
         return view('admin.verifikasi.index', compact('pendingSellers'));
     }
 
@@ -57,7 +60,20 @@ class VerificationController extends Controller
             ]);
         });
 
-        $pesan = $request->status === 'approved' ? 'UMKM berhasil diverifikasi!' : 'Pendaftaran UMKM ditolak.';
+        // JIKA STATUSNYA DISETUJUI, KIRIM EMAIL KE PENJUAL
+        if ($request->status === 'approved') {
+            try {
+                Mail::to($seller->user->email)->send(new AkunDisetujuiMail($seller->user));
+            } catch (\Exception $e) {
+                // Catat error ke file log Laravel jika email gagal terkirim (storage/logs/laravel.log)
+                Log::error('Gagal mengirim email persetujuan ke ' . $seller->user->email . '. Error: ' . $e->getMessage());
+            }
+        }
+
+        $pesan = $request->status === 'approved' 
+                    ? 'UMKM berhasil diverifikasi dan Email notifikasi telah dikirim!' 
+                    : 'Pendaftaran UMKM ditolak.';
+                    
         return redirect()->route('admin.verifikasi.index')->with('success', $pesan);
     }
 }

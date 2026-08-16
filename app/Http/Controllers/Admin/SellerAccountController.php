@@ -50,6 +50,7 @@ class SellerAccountController extends Controller
                 'owner_name' => $request->name,
                 'business_name' => $request->business_name,
                 // Kolom wajib di database kita isi default sementara (bisa diubah penjual nanti)
+                'phone' => '-', // <--- TAMBAHKAN BARIS INI
                 'address' => 'Belum diisi',
                 'rt' => '-',
                 'rw' => '-',

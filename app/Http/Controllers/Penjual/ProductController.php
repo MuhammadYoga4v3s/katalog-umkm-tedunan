@@ -78,6 +78,7 @@ class ProductController extends Controller
     }
 
     // UPDATE: Memperbarui data produk
+    // UPDATE: Memperbarui data produk
     public function update(Request $request, string $id)
     {
         $request->validate([
@@ -87,11 +88,35 @@ class ProductController extends Controller
             'price' => 'nullable|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'status' => 'required|in:available,unavailable',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048' // Tambahan validasi gambar
         ]);
 
         $product = Product::where('seller_id', Auth::user()->seller->id)->findOrFail($id);
 
-        $product->update($request->except(['_token', '_method']));
+        // Update teks (kecuali _token, _method, dan file images)
+        $product->update($request->except(['_token', '_method', 'images']));
+
+        // Jika ada upload foto baru, hapus foto lama dan simpan yang baru
+        if ($request->hasFile('images')) {
+            // 1. Hapus foto lama di storage dan database
+            foreach ($product->images as $image) {
+                if (Storage::disk('public')->exists($image->image)) {
+                    Storage::disk('public')->delete($image->image);
+                }
+                $image->delete();
+            }
+
+            // 2. Simpan foto baru
+            foreach ($request->file('images') as $index => $file) {
+                $path = $file->store('produk', 'public');
+                
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'image' => $path,
+                    'sort_order' => $index + 1,
+                ]);
+            }
+        }
 
         return redirect()->route('seller.produk.index')->with('success', 'Data produk berhasil diperbarui!');
     }

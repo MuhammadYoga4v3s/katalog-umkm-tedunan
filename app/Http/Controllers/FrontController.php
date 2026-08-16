@@ -125,4 +125,60 @@ class FrontController extends Controller
 
         return redirect()->route('produk.show', $id)->with('success', 'Terima kasih! Ulasan Anda berhasil dikirim.');
     }
+
+    // Menampilkan halaman Tentang (Profil Desa & Program KKN)
+    public function tentang()
+    {
+        // Mengambil statistik nyata dari database untuk ditampilkan
+        $totalUMKM = \App\Models\Seller::where('verification_status', 'approved')->count();
+        $totalProduk = \App\Models\Product::where('status', 'available')->count();
+        $totalKategori = \App\Models\BusinessCategory::count();
+
+        return view('front.tentang', compact('totalUMKM', 'totalProduk', 'totalKategori'));
+    }
+
+    // Menampilkan halaman form pendaftaran UMKM
+    public function daftarUmkm()
+    {
+        $categories = \App\Models\BusinessCategory::all();
+        return view('front.daftar-umkm', compact('categories'));
+    }
+
+    // Memproses data pendaftaran UMKM dari pengunjung
+    public function storeUmkm(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'business_name' => 'required|string|max:255',
+            'business_category_id' => 'required|exists:business_categories,id',
+        ]);
+
+        \Illuminate\Support\Facades\DB::transaction(function () use ($request) {
+            // 1. Buat User (Status Inactive agar tidak bisa login sebelum disetujui)
+            $user = \App\Models\User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+                'role' => 'seller',
+                'status' => 'inactive', 
+            ]);
+
+            // 2. Buat profil Seller (Status Pending)
+            \App\Models\Seller::create([
+                'user_id' => $user->id,
+                'business_category_id' => $request->business_category_id,
+                'owner_name' => $request->name,
+                'business_name' => $request->business_name,
+                'phone' => '-', 
+                'address' => 'Belum diisi',
+                'rt' => '-',
+                'rw' => '-',
+                'verification_status' => 'pending', 
+            ]);
+        });
+
+        return redirect()->route('home')->with('success', 'Pendaftaran berhasil dikirim! Silakan tunggu persetujuan dari Admin melalui email Anda.');
+    }
 }

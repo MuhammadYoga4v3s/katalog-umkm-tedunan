@@ -19,6 +19,9 @@ Route::get('/umkm/{id}', [FrontController::class, 'showUmkm'])->name('umkm.show'
 Route::get('/produk', [FrontController::class, 'produk'])->name('produk.index');
 Route::get('/produk/{id}', [FrontController::class, 'showProduk'])->name('produk.show');
 Route::post('/produk/{id}/ulasan', [FrontController::class, 'storeReview'])->name('produk.review');
+Route::get('/tentang', [FrontController::class, 'tentang'])->name('tentang');
+Route::get('/daftar-umkm', [\App\Http\Controllers\FrontController::class, 'daftarUmkm'])->name('daftar-umkm');
+Route::post('/daftar-umkm', [\App\Http\Controllers\FrontController::class, 'storeUmkm'])->name('daftar-umkm.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

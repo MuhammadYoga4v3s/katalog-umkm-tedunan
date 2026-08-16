@@ -95,7 +95,8 @@
 
                 <div class="inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-lg z-50">
                     <h3 class="text-lg font-bold text-gray-900 mb-4">Edit Informasi Produk</h3>
-                    <form :action="'{{ url('penjual/produk') }}/' + editData.id" method="POST">
+                    <!-- Perhatikan ada tambahan enctype di sini -->
+                    <form :action="'{{ url('penjual/produk') }}/' + editData.id" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="grid grid-cols-2 gap-4">
@@ -127,6 +128,14 @@
                                     <option value="unavailable">Habis (Sembunyikan)</option>
                                 </select>
                             </div>
+                            
+                            <!-- INI DIA INPUT UNTUK GANTI GAMBARNYA -->
+                            <div class="col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Ganti Foto Produk (Opsional)</label>
+                                <input type="file" name="images[]" multiple accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+                                <p class="text-xs text-gray-500 mt-1">Biarkan kosong jika tidak ingin mengganti foto. Jika diisi, foto lama akan otomatis diganti dengan yang baru.</p>
+                            </div>
+
                             <div class="col-span-2">
                                 <label class="block text-sm font-medium text-gray-700">Deskripsi Produk</label>
                                 <textarea name="description" x-model="editData.description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"></textarea>

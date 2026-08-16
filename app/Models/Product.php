@@ -6,6 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    // Tambahkan daftar kolom ini agar form bisa menyimpan & update data
+    protected $fillable = [
+        'seller_id',
+        'product_category_id',
+        'name',
+        'description',
+        'price',
+        'stock',
+        'status',
+    ];
+
     // Relasi balik ke tabel Seller
     public function seller()
     {

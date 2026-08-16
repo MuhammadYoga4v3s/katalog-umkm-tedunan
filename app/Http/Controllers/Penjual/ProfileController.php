@@ -23,29 +23,17 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $seller = Auth::user()->seller;
+        
+        // AMBIL SEMUA INPUT FORM, KECUALI _token DAN _method
+        $data = $request->except(['_token', '_method']);
 
-        // Validasi input dari form
-        $request->validate([
-            'owner_name' => 'required|string|max:255',
-            'business_name' => 'required|string|max:255',
-            'business_description' => 'nullable|string',
-            'address' => 'required|string',
-            'rt' => 'required|string|max:5',
-            'rw' => 'required|string|max:5',
-            'phone' => 'required|string|max:20',
-            'google_maps' => 'nullable|url',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Maksimal 2MB
-        ]);
-
-        // Simpan semua data request kecuali file foto
-        $data = $request->except('profile_image');
-
-        // Logika untuk upload foto profil baru
+        // Jika ada upload foto profil baru
         if ($request->hasFile('profile_image')) {
-            // Hapus foto lama jika ada
-            if ($seller->profile_image) {
-                Storage::disk('public')->delete($seller->profile_image);
+            // Hapus foto lama dari penyimpanan agar hardisk tidak penuh
+            if ($seller->profile_image && \Illuminate\Support\Facades\Storage::disk('public')->exists($seller->profile_image)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($seller->profile_image);
             }
+            
             // Simpan foto baru ke folder storage/app/public/profil
             $data['profile_image'] = $request->file('profile_image')->store('profil', 'public');
         }

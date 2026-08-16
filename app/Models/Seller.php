@@ -6,6 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Seller extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'business_category_id',
+        'business_name',
+        'business_description',
+        'owner_name',
+        'phone',
+        'address',
+        'rt',
+        'rw',
+        'profile_image',
+        'google_maps',
+        'verification_status',
+    ];
+
     // Relasi balik ke tabel User (Setiap Penjual terhubung ke satu User)
     public function user()
     {

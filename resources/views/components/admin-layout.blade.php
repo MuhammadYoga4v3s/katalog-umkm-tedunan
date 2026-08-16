@@ -19,11 +19,11 @@
             <nav class="mt-4 px-4 space-y-2">
                 <!-- Nanti href-nya kita perbarui satu per satu kalau rutenya sudah dibuat -->
                 <a href="{{ route('admin.dashboard') }}" class="block py-2.5 px-4 rounded bg-blue-50 text-blue-700 font-medium">Dashboard</a>
-                <a href="#" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700">Akun UMKM</a>
-                <a href="#" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700">Verifikasi</a>
-                <a href="#" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700">Kategori Usaha</a>
+                <a href="{{ route('admin.akun-penjual.index') }}" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700">Akun UMKM</a>
+                <a href="{{ route('admin.verifikasi.index') }}" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700">Verifikasi</a>
+                <a href="{{ route('admin.kategori-usaha.index') }}" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700">Kategori Usaha</a>
                 <a href="#" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700">Produk</a>
-                <a href="#" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700">Laporan</a>
+                <a href="{{ route('admin.laporan.download') }}" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700" target="_blank">Unduh Laporan (PDF)</a>
                 <a href="#" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700">Pengaturan</a>
             </nav>
         </aside>

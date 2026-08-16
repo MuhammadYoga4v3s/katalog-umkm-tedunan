@@ -17,9 +17,9 @@
             </div>
             <nav class="mt-4 px-4 space-y-2">
                 <a href="{{ route('seller.dashboard') }}" class="block py-2.5 px-4 rounded bg-green-50 text-green-700 font-medium">Dashboard</a>
-                <a href="#" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700">Profil Toko</a>
-                <a href="#" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700">Kelola Produk</a>
-                <a href="#" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700">Laporan</a>
+                <a href="{{ route('seller.profil.edit') }}" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700">Profil Toko</a>
+                <a href="{{ route('seller.produk.index') }}" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700">Kelola Produk</a>
+                <a href="{{ route('seller.laporan.download') }}" class="block py-2.5 px-4 rounded hover:bg-gray-100 text-gray-700" target="_blank">Unduh Laporan (PDF)</a>
             </nav>
         </aside>
 

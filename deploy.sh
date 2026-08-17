@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Fix permissions first so git and composer don't get permission denied
+sudo chown -R $USER:www-data storage bootstrap/cache
+sudo chmod -R 775 storage bootstrap/cache
+
 # Reset any local changes to avoid merge conflicts
 git reset --hard HEAD
 git clean -df

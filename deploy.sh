@@ -26,7 +26,7 @@ php artisan view:cache
 php artisan migrate --force
 
 # Set permissions
-sudo chown -R www-data:www-data storage bootstrap/cache
+sudo chown -R $USER:www-data storage bootstrap/cache
 sudo chmod -R 775 storage bootstrap/cache
 
 echo "Deployment finished successfully!"

@@ -5,7 +5,7 @@
 
         <div class="absolute inset-0 z-0 opacity-40">
             <img
-                src="{{ asset('images/UMKM-hero.jpeg') }}"
+                src="{{ asset('images/UMKM-Hero.jpeg') }}"
                 alt="Desa Tedunan"
                 class="h-full w-full object-cover"
             >
@@ -278,7 +278,7 @@
                         @else
 
                             <img
-                                src="{{ asset('images/UMKM-hero.jpeg') }}"
+                                src="{{ asset('images/UMKM-Hero.jpeg') }}"
                                 alt="Default Banner"
                                 class="h-full w-full object-cover opacity-80 transition duration-500 group-hover:scale-105"
                             >

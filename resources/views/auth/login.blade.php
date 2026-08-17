@@ -11,7 +11,7 @@
 
             <!-- Background -->
             <img
-                src="{{ asset('images/UMKM-hero.jpeg') }}"
+                src="{{ asset('images/UMKM-Hero.jpeg') }}"
                 alt="UMKM Desa Tedunan"
                 class="absolute inset-0 w-full h-full object-cover"
             >

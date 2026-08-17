@@ -183,7 +183,7 @@
 
                     <div class="h-72 sm:h-80 rounded-xl overflow-hidden relative">
 
-                        <img src="{{ asset('images/UMKM-hero.jpeg') }}"
+                        <img src="{{ asset('images/UMKM-Hero.jpeg') }}"
                              alt="Potensi Desa Tedunan"
                              class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
 

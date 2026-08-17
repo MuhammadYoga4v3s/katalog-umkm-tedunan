@@ -42,7 +42,7 @@
             @else
 
                 <img
-                    src="{{ asset('images/UMKM-hero.jpeg') }}"
+                    src="{{ asset('images/UMKM-Hero.jpeg') }}"
                     alt="Desa Tedunan"
                     class="w-full h-full object-cover"
                 >
@@ -600,7 +600,7 @@
                     <div class="h-48 rounded-2xl bg-gray-200 overflow-hidden relative mb-4">
 
                         <img
-                            src="{{ asset('images/UMKM-hero.jpeg') }}"
+                            src="{{ asset('images/UMKM-Hero.jpeg') }}"
                             alt="Peta Lokasi"
                             class="w-full h-full object-cover opacity-75"
                         >

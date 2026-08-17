@@ -63,7 +63,7 @@
         <div class="absolute inset-0 z-0 opacity-40">
 
             <img
-                src="{{ asset('images/UMKM-hero.jpeg') }}"
+                src="{{ asset('images/UMKM-Hero.jpeg') }}"
                 alt="Sawah Desa Tedunan"
                 class="w-full h-full object-cover"
             >
